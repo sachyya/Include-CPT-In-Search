@@ -157,6 +157,9 @@ class Cpt_Search {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$plugin_settings = new Cpt_Search_Admin_Settings( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $plugin_settings, 'setup_plugin_options_menu' );
+
 	}
 
 	/**
