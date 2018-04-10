@@ -14,4 +14,33 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-Hello there! General Kenobi!!!
+<?php
+ $args = array(
+   'public'   => true,
+   '_builtin' => false,
+);
+
+// $args = apply_filters( 'cpt_search_post_types_args', $args );
+
+$custom_post_types = get_post_types( $args, 'object' );
+// gh_print( $custom_post_types ); 
+?>
+<div class="wrap">
+	<form>
+		
+	<table class="form-table">
+		<tbody>
+			<tr>
+				<th>Select the custom post types to be included on search:</th>
+				<td>
+					<fieldset>
+						<label>
+							<input type="checkbox" name="">Post type
+						</label>
+					</fieldset>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</div>

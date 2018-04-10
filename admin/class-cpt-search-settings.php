@@ -52,15 +52,15 @@ class Cpt_Search_Admin_Settings {
 	 * This function introduces the theme options into the 'Appearance' menu and into a top-level
 	 * 'WPPB Demo' menu.
 	 */
-	public function setup_plugin_options_menu() {
+	public function setup_plugin_options_page() {
 
 		//Add the menu to the Plugins set of menu items
-		add_plugins_page(
+		add_options_page(
 			'Include CPT In Search', 					// The title to be displayed in the browser window for this page.
 			'Include CPT In Search',					// The text to be displayed for this menu item
 			'manage_options',					// Which type of users can see this menu item
 			'cpt_search',			// The unique ID - that is, the slug - for this menu item
-			array( $this, 'render_settings_page_content')				// The name of the function to call when rendering this menu's page
+			array( $this, 'render_plugin_settings')				// The name of the function to call when rendering this menu's page
 		);
 
 	}
@@ -68,12 +68,19 @@ class Cpt_Search_Admin_Settings {
 	/**
 	 * Renders a simple page to display for the theme menu defined above.
 	 */
-	public function render_settings_page_content() {
-		/**
-		 * 
-		 * Provide a admin area view for the plugin
-		 * 
-		 **/
-		require_once plugin_dir_path( dirname( __FILE__ ) ) .  'admin/partials/cpt-search-admin-display.php';
+	public function render_plugin_settings() {
+		register_setting(
+            'tp_education_option_group', // Option group
+            'tp_education_setting_option', // Option name
+            array( $this, 'tp_education_sanitize' ) // Sanitize
+        );
+
+        add_settings_section(
+            'tp_education_settings_id', // ID
+            __( 'TP Education Settings', 'tp-education' ), // Title
+            array( $this, 'tp_education_print_section_info' ), // Callback
+            'my-setting-admin' // Page
+        );  
 	}
 }
+		
