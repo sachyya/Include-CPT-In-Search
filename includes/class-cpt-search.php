@@ -159,6 +159,7 @@ class Cpt_Search {
 
 		$plugin_settings = new Cpt_Search_Admin_Settings( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_menu', $plugin_settings, 'setup_plugin_options_page' );
+		$this->loader->add_action( 'admin_init', $plugin_settings, 'render_plugin_settings' );
 
 	}
 

@@ -60,27 +60,67 @@ class Cpt_Search_Admin_Settings {
 			'Include CPT In Search',					// The text to be displayed for this menu item
 			'manage_options',					// Which type of users can see this menu item
 			'cpt_search',			// The unique ID - that is, the slug - for this menu item
-			array( $this, 'render_plugin_settings')				// The name of the function to call when rendering this menu's page
+			array( $this, 'render_plugin_page_content')				// The name of the function to call when rendering this menu's page
 		);
 
+	}
+
+	/**
+	 * Options page callback
+	 */
+	public function render_plugin_page_content()
+	{
+	    ?>
+	    <div class="wrap">
+	        <form method="post" action="options.php">
+		        <?php
+		            // This prints out all hidden setting fields
+		            settings_fields( 'cpt_search_option' );
+		            do_settings_sections( 'cpt_search' );
+		            submit_button();
+		        ?>
+	        </form>
+	    </div>
+	    <?php
 	}
 
 	/**
 	 * Renders a simple page to display for the theme menu defined above.
 	 */
 	public function render_plugin_settings() {
-		register_setting(
-            'tp_education_option_group', // Option group
-            'tp_education_setting_option', // Option name
-            array( $this, 'tp_education_sanitize' ) // Sanitize
-        );
-
-        add_settings_section(
-            'tp_education_settings_id', // ID
-            __( 'TP Education Settings', 'tp-education' ), // Title
-            array( $this, 'tp_education_print_section_info' ), // Callback
-            'my-setting-admin' // Page
-        );  
+        // Add the section to reading settings so we can add our
+     	// fields to it
+     	add_settings_section(
+    		'cpt_search_section',
+    		'Custom Post Type search settings',
+    		'',
+    		'cpt_search'
+    	);
+     	
+     	// Add the field with the names and function to use for our new
+     	// settings, put it in our new section
+     	add_settings_field(
+    		'cpt_search_setting',
+    		'Select custom post types to be included on default search:',
+    		array( $this, 'eg_setting_callback_function' ),
+    		'cpt_search',
+    		'cpt_search_section'
+    	);
+     	
+     	// Register our setting so that $_POST handling is done for us and
+     	// our callback function just has to echo the <input>
+     	register_setting( 'cpt_search_option', 'cpt_search_setting' );
 	}
+
+	 // ------------------------------------------------------------------
+	 // Callback function for our example setting
+	 // ------------------------------------------------------------------
+	 //
+	 // creates a checkbox true/false option. Other types are surely possible
+	 //
+	 
+	 function eg_setting_callback_function() {
+		require_once plugin_dir_path( dirname( __FILE__ ) ) .  'admin/partials/cpt-search-admin-display.php';
+	 }
 }
 		

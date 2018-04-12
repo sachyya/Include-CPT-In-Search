@@ -15,7 +15,7 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
- $args = array(
+$args = array(
    'public'   => true,
    '_builtin' => false,
 );
@@ -23,24 +23,9 @@
 // $args = apply_filters( 'cpt_search_post_types_args', $args );
 
 $custom_post_types = get_post_types( $args, 'object' );
-// gh_print( $custom_post_types ); 
-?>
-<div class="wrap">
-	<form>
-		
-	<table class="form-table">
-		<tbody>
-			<tr>
-				<th>Select the custom post types to be included on search:</th>
-				<td>
-					<fieldset>
-						<label>
-							<input type="checkbox" name="">Post type
-						</label>
-					</fieldset>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	</form>
-</div>
+foreach ($custom_post_types as $custom_post_type => $value ) {
+	gh_print( get_option( 'cpt_search_setting' ) );
+	$slug = $value->name;
+	$label = $value->label;
+	echo '<input name="cpt_search_setting" id="cpt_search_setting" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'cpt_search_setting' ), false ) . ' />' . $label . '<br />';
+}
